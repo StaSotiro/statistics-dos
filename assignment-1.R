@@ -20,11 +20,11 @@ sum(apply(voteData,2, is.na))
 # White alone
 plot_ly(x=voteData$state, y=voteData$hilary_prob, z=voteData$RHI825214, type="scatter3d", mode="markers", color=voteData$state, main = " Hilary success percentage per state based on White population percentage")
 
-voteData = voteData[, -c(1, 2, 3, 4, 6, 7, 8, 9, 10,11)]
+voteData = voteData[, -c(1:4, 6:12)]
 
 # Attempting to run based on a binomial model since there is a vote on either Sanders or Hilary
 
-popInsight= voteData[,c(1, 5, 8:17, 19:23, 33 )]
+popInsight= voteData[,-c( 5, 8:17, 19:23, 33 )]
 
 par(mfrow = c(1,1))
 corrplot(cor(popInsight))
@@ -67,7 +67,7 @@ summary(finalModel1)
 
 vcov(finalModel1)
 
-wald.test(b = coef(finalModel1), Sigma = vcov(finalModel1), Terms = c(2:5)) # Low p-value, statistically important but not a great pick probably
+wald.test(b = coef(finalModel1), Sigma = vcov(finalModel1), Terms = c(2:4)) # Low p-value, statistically important but not a great pick probably
 
 # Goodness of Fit
 
@@ -92,7 +92,7 @@ finalModel2 = glm(hilary_elected ~ RHI325214 + RHI825214 + HSD310213 + PVY020213
 with(finalModel2, pchisq(deviance, df.residual, lower.tail = FALSE))
 with(finalModel1, pchisq(deviance, df.residual, lower.tail = FALSE))
 
-interactionModel = glm(hilary_elected ~  HSD310213 + PVY020213 * RHI325214 * RHI825214, data = voteData, family='binomial')
+interactionModel = glm(hilary_elected ~  PVY020213 + RHI825214 + HSD310213 + PVY020213 * PVY020213 * RHI825214, data = voteData, family='binomial')
 summary(interactionModel)
 
 
