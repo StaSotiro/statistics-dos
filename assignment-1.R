@@ -92,7 +92,7 @@ finalModel2 = glm(hilary_elected ~ RHI325214 + RHI825214 + HSD310213 + PVY020213
 with(finalModel2, pchisq(deviance, df.residual, lower.tail = FALSE))
 with(finalModel1, pchisq(deviance, df.residual, lower.tail = FALSE))
 
-interactionModel = glm(hilary_elected ~  PVY020213 + RHI825214 + HSD310213 + PVY020213 * PVY020213 * RHI825214, data = voteData, family='binomial')
+interactionModel = glm(hilary_elected ~  PVY020213 + HSD310213  * PVY020213 * RHI825214, data = voteData, family='binomial')
 summary(interactionModel)
 
 
